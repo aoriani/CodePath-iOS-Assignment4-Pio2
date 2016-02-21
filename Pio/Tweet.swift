@@ -8,8 +8,13 @@
 
 import Foundation
 import ELCodable
+import DateTools
 
 final class Tweet: Decodable {
+    
+    static let dateFormatter = NSDateFormatter()
+    enum Type {case Regular, Reply, Retweet}
+    
     var user: User
     var text: String
     var creationDate: String
@@ -20,6 +25,26 @@ final class Tweet: Decodable {
     var retweetCount:Int
     var wasRetweetedByUser: Bool
     var originalTweet: Tweet?
+    
+    var humandReadableTimestamp:String {
+        get {
+            Tweet.dateFormatter.dateFormat = "EEE MMM d HH:mm:ss Z y" //What are static blocks in swift ?
+            let date = Tweet.dateFormatter.dateFromString(creationDate)!
+            return date.shortTimeAgoSinceNow()
+        }
+    }
+    
+    var type: Type {
+        get {
+            if originalTweet != nil {
+                return .Retweet
+            } else if replyToScreenName != nil {
+                return .Reply
+            } else  {
+                return .Regular
+            }
+        }
+    }
     
     init(
         user: User,

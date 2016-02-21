@@ -29,4 +29,7 @@ extension String {
         return self.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
     }
     
+    func replace(text: String, by replacement: String) -> String {
+        return self.stringByReplacingOccurrencesOfString(text, withString: replacement, options: NSStringCompareOptions.LiteralSearch, range: nil)
+    }
 }

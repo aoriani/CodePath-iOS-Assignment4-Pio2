@@ -23,6 +23,12 @@ struct User: Decodable {
     var tweetsCount: Int
     var rawData: NSDictionary?
     
+    var biggerProfileImageUrl: String {
+        get{
+            return profileImageUrl.replace("normal", by: "bigger")
+        }
+    }
+    
     static func decode(json: JSON?) throws -> User {
         return try User(
             name: json ==> "name",
