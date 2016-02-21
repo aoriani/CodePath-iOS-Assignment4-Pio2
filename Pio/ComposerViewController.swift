@@ -39,7 +39,7 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
         compositionField.delegate = self
         compositionField.layer.cornerRadius = 10
         compositionField.layer.borderWidth = 1
-        compositionField.layer.borderColor = UIColor.init(colorLiteralRed: 0.34, green: 0.67, blue: 0.934, alpha: 1).CGColor
+        compositionField.layer.borderColor = UIColor.init(colorLiteralRed: 0.1, green: 0.75, blue: 0.875, alpha: 1).CGColor
         compositionField.becomeFirstResponder()
     }
 

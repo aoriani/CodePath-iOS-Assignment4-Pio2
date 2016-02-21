@@ -29,7 +29,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Loading Tweets")
-        refreshControl.tintColor = UIColor.init(colorLiteralRed: 0.34, green: 0.67, blue: 0.934, alpha: 1)
+        refreshControl.tintColor = UIColor.init(colorLiteralRed: 0.1, green: 0.75, blue: 0.875, alpha: 1)
         tableView.insertSubview(refreshControl, atIndex: 0)
         refreshControl.addTarget(self, action: "refreshAction:", forControlEvents: UIControlEvents.ValueChanged)
     }
@@ -42,6 +42,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let tweetDetailsVC = self.storyboard?.instantiateViewControllerWithIdentifier("tweetDetails") as! TweetDetailsViewController
+        let selectedTweet = dataSource.getItemAt(indexPath)
+        tweetDetailsVC.tweet = selectedTweet.type == .Retweet ? selectedTweet.originalTweet : selectedTweet
+        self.navigationController?.pushViewController(tweetDetailsVC, animated: true)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -55,6 +59,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
             let composeVc = segue.destinationViewController as! ComposerViewController
             composeVc.newTweetPostedCallback = self
         }
+    }
+    
+    @IBAction func onLogoutButtonPressed(sender: AnyObject) {
+        UserManager.singleton.logout()
     }
     
     func onNewTweetPosted(tweet: Tweet) {

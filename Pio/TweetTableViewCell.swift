@@ -33,7 +33,7 @@ class TweetTableViewCell: UITableViewCell {
     }
     
     func populate(tweet: Tweet) {
-        timestampLabel.text = tweet.humandReadableTimestamp
+        timestampLabel.text = tweet.humandReadableTimestampShort
         
         switch (tweet.type) {
         case .Regular:

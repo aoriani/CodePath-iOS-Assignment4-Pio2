@@ -26,12 +26,23 @@ final class Tweet: Decodable {
     var wasRetweetedByUser: Bool
     var originalTweet: Tweet?
     
-    var humandReadableTimestamp:String {
+    var humandReadableTimestampShort: String  {
         get {
-            Tweet.dateFormatter.dateFormat = "EEE MMM d HH:mm:ss Z y" //What are static blocks in swift ?
-            let date = Tweet.dateFormatter.dateFromString(creationDate)!
-            return date.shortTimeAgoSinceNow()
+            return getNSDateFromTimestamp().shortTimeAgoSinceNow()
         }
+    }
+    
+    var humandReadableTimestampLong: String {
+        let timestamp = getNSDateFromTimestamp()
+        Tweet.dateFormatter.dateFormat = "MMMM, d yyyy, h:mm a"
+        return Tweet.dateFormatter.stringFromDate(timestamp)
+    }
+    
+    
+    private func getNSDateFromTimestamp() -> NSDate {
+        Tweet.dateFormatter.dateFormat = "EEE MMM d HH:mm:ss Z y" //What are static blocks in swift ?
+        let date = Tweet.dateFormatter.dateFromString(creationDate)!
+        return date
     }
     
     var type: Type {
