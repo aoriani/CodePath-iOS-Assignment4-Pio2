@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--No Credentials View Controller-->
@@ -138,7 +139,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Tweets" id="SgQ-ui-teK">
                         <barButtonItem key="leftBarButtonItem" image="logout" id="0d6-4p-IcZ"/>
-                        <barButtonItem key="rightBarButtonItem" image="compose" id="0PZ-BZ-G5A"/>
+                        <barButtonItem key="rightBarButtonItem" image="compose" id="0PZ-BZ-G5A">
+                            <connections>
+                                <segue destination="TUq-rg-wke" kind="show" identifier="composeSegue" id="xlb-Sm-ev1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="fOi-DN-ZXG" id="old-iy-QqK"/>
@@ -148,6 +153,97 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rei-bQ-C22" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1969" y="253"/>
+        </scene>
+        <!--Compose-->
+        <scene sceneID="bj0-YS-aeX">
+            <objects>
+                <viewController title="Compose" id="TUq-rg-wke" customClass="ComposerViewController" customModule="Pio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Cmu-Zn-NYt"/>
+                        <viewControllerLayoutGuide type="bottom" id="X2h-4D-wWo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7kR-RM-mRt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WaO-dL-D6g">
+                                <rect key="frame" x="20" y="79" width="73" height="73"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="3cF-Lx-WN2"/>
+                                    <constraint firstAttribute="height" constant="73" id="sdY-AP-xF4"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5GF-xx-TrN">
+                                <rect key="frame" x="101" y="79" width="45" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5tA-TX-7EC">
+                                <rect key="frame" x="101" y="105" width="37" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woI-8L-Euz">
+                                <rect key="frame" x="20" y="172" width="560" height="110"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="110" id="WZt-OM-GSH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" keyboardType="twitter" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="5GF-xx-TrN" firstAttribute="top" secondItem="WaO-dL-D6g" secondAttribute="top" id="3fQ-TF-32f"/>
+                            <constraint firstItem="5tA-TX-7EC" firstAttribute="leading" secondItem="5GF-xx-TrN" secondAttribute="leading" id="Flb-Su-lHp"/>
+                            <constraint firstItem="WaO-dL-D6g" firstAttribute="leading" secondItem="7kR-RM-mRt" secondAttribute="leadingMargin" id="JqK-eZ-BQC"/>
+                            <constraint firstItem="WaO-dL-D6g" firstAttribute="top" secondItem="Cmu-Zn-NYt" secondAttribute="bottom" constant="15" id="KT6-7g-myc"/>
+                            <constraint firstItem="5GF-xx-TrN" firstAttribute="leading" secondItem="WaO-dL-D6g" secondAttribute="trailing" constant="8" id="Ug1-dX-VHD"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="5GF-xx-TrN" secondAttribute="trailing" constant="8" id="Zmm-YW-Vzi"/>
+                            <constraint firstItem="woI-8L-Euz" firstAttribute="top" secondItem="WaO-dL-D6g" secondAttribute="bottom" constant="20" id="c7R-Sv-urd"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="5tA-TX-7EC" secondAttribute="trailing" constant="8" id="gBU-Dl-FMX"/>
+                            <constraint firstItem="woI-8L-Euz" firstAttribute="leading" secondItem="7kR-RM-mRt" secondAttribute="leadingMargin" id="n5W-Rw-EdK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="woI-8L-Euz" secondAttribute="trailing" id="vJH-bD-yLW"/>
+                            <constraint firstItem="5tA-TX-7EC" firstAttribute="top" secondItem="5GF-xx-TrN" secondAttribute="bottom" constant="5" id="zg4-fm-Ek3"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="kob-fA-N9F" appends="YES" id="Cyy-hA-wRd"/>
+                        </connections>
+                    </view>
+                    <navigationItem key="navigationItem" title="Compose" id="mgf-ag-w1B">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="drX-Mn-zTM"/>
+                        <rightBarButtonItems>
+                            <barButtonItem image="post" id="NHc-yT-Hev">
+                                <connections>
+                                    <action selector="onPostButtonClicked:" destination="TUq-rg-wke" id="Viu-4N-6Sh"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem tag="1" title="140" style="done" id="Cki-jM-faI">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="avatarImageView" destination="WaO-dL-D6g" id="4eM-q2-1pX"/>
+                        <outlet property="charCounter" destination="Cki-jM-faI" id="oSp-TI-Muf"/>
+                        <outlet property="compositionField" destination="woI-8L-Euz" id="wgl-ZE-SE0"/>
+                        <outlet property="nameLabel" destination="5GF-xx-TrN" id="4VL-oo-qQr"/>
+                        <outlet property="screenNameLabel" destination="5tA-TX-7EC" id="VdJ-BQ-Ygg"/>
+                        <outlet property="topView" destination="7kR-RM-mRt" id="9Mm-VA-KqC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xd4-rh-cye" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="kob-fA-N9F">
+                    <connections>
+                        <action selector="onTapOutsideKeyboard:" destination="TUq-rg-wke" id="iaQ-vI-yhZ"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="2613" y="253"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="SAy-Bu-5t4">
@@ -176,5 +272,6 @@
     <resources>
         <image name="compose" width="24" height="24"/>
         <image name="logout" width="24" height="24"/>
+        <image name="post" width="24" height="24"/>
     </resources>
 </document>

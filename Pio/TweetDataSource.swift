@@ -48,4 +48,9 @@ class TweetDataSource:NSObject, UITableViewDataSource {
     func getItemAt(indexPath: NSIndexPath) -> Tweet {
         return items[indexPath.row]
     }
+    
+    func prepend(tweet: Tweet) {
+        items.insert(tweet, atIndex: 0)
+        tableView.reloadData()
+    }
 }

@@ -22,21 +22,12 @@ class NoCredentialsViewController: UIViewController {
     }
     
     @IBAction func onTwitterLoginButtonPressed(sender: AnyObject) {
-        let showErrorDialog: (String) -> Void = {
-            errorMessage in
-                let alertDialog = UIAlertView(title: "Error",
-                    message: "Something went wrong. Please try again later",
-                    delegate: nil,
-                    cancelButtonTitle: "OK")
-                alertDialog.show()
-        }
-        
         UserManager.singleton.startLoginFlow(onSuccess: {
                 user in
                     let tweetsVC = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController")
                     self.presentViewController(tweetsVC!, animated: true, completion: nil)
             },
-            onFailure: showErrorDialog)
+            onFailure: {msg in showErrorDialog(msg)})
     }
     
     

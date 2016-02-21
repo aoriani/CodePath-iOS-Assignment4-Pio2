@@ -8,12 +8,39 @@
 
 import UIKit
 
-class ComposerViewController: UIViewController {
 
+protocol OnNewTweetPostedCallback {
+    func onNewTweetPosted(tweet:Tweet)
+}
+
+class ComposerViewController: UIViewController, UITextViewDelegate {
+    
+    @IBOutlet var topView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var compositionField: UITextView!
+    @IBOutlet weak var charCounter: UIBarButtonItem!
+    
+    var maxTweetLenght:Int = 140
+    var newTweetPostedCallback: OnNewTweetPostedCallback?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+   
+        let currentUser = UserManager.singleton.currentUser!
+        
+        nameLabel.text = currentUser.name
+        screenNameLabel.text = "@\(currentUser.screenName)"
+        avatarImageView.fadedSetImageWithUrl(NSURL(string: currentUser.biggerProfileImageUrl)!)
+        
+        charCounter.title = "\(maxTweetLenght)"
+        
+        compositionField.delegate = self
+        compositionField.layer.cornerRadius = 10
+        compositionField.layer.borderWidth = 1
+        compositionField.layer.borderColor = UIColor.init(colorLiteralRed: 0.34, green: 0.67, blue: 0.934, alpha: 1).CGColor
+        compositionField.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +48,39 @@ class ComposerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func onTapOutsideKeyboard(sender: AnyObject) {
+        compositionField.resignFirstResponder()
     }
-    */
 
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        //see http://stackoverflow.com/questions/433337/set-the-maximum-character-length-of-a-uitextfield
+        let currentCharacterCount = compositionField.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            return false
+        }
+        let newLength = currentCharacterCount + text.characters.count - range.length
+        let newLenghtAllowed = newLength <= maxTweetLenght
+        if newLenghtAllowed {
+            charCounter.title = "\(maxTweetLenght - newLength)"
+        }
+        
+        return newLenghtAllowed
+    }
+
+    @IBAction func onPostButtonClicked(sender: AnyObject) {
+        if !compositionField.text.isEmpty {
+            let progress = showProgressDialog(attachedTo: topView, message: "Posting tweet ...")
+            TwitterService.sharedInstance.postUpdate(compositionField.text.trim(),
+                replyTo: nil,
+                onSuccess: { (tweet) -> Void in
+                    progress.hide(true)
+                    self.newTweetPostedCallback?.onNewTweetPosted(tweet)
+                    self.navigationController?.popViewControllerAnimated(true)
+                },
+                onFailure: {
+                    progress.hide(true)
+                    showErrorDialog("Sorry, something went wrong. Try again later.")
+                })
+        }
+    }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate {
+class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPostedCallback {
 
     var dataSource: TweetDataSource!
     
@@ -32,7 +32,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate {
         refreshControl.tintColor = UIColor.init(colorLiteralRed: 0.34, green: 0.67, blue: 0.934, alpha: 1)
         tableView.insertSubview(refreshControl, atIndex: 0)
         refreshControl.addTarget(self, action: "refreshAction:", forControlEvents: UIControlEvents.ValueChanged)
-        
     }
 
     func refreshAction(refreshControl: UIRefreshControl) {
@@ -43,5 +42,22 @@ class TweetsViewController: UIViewController, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "Tweets"
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "composeSegue" {
+            self.navigationItem.title = "Cancel"
+            let composeVc = segue.destinationViewController as! ComposerViewController
+            composeVc.newTweetPostedCallback = self
+        }
+    }
+    
+    func onNewTweetPosted(tweet: Tweet) {
+        dataSource.prepend(tweet)
     }
 }

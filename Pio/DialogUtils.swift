@@ -8,6 +8,7 @@
 
 import Foundation
 import MBProgressHUD
+import UIKit
 
 
 func showProgressDialog(attachedTo topView:UIView, message: String = "") -> MBProgressHUD {
@@ -17,4 +18,12 @@ func showProgressDialog(attachedTo topView:UIView, message: String = "") -> MBPr
     progress.show(true)
     
     return progress
+}
+
+func showErrorDialog(errorMessage: String) {
+    let alertDialog = UIAlertView(title: "Error",
+        message: errorMessage,
+        delegate: nil,
+        cancelButtonTitle: "OK")
+    alertDialog.show()
 }
