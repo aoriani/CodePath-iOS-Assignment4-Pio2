@@ -100,7 +100,7 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
             let progress = showProgressDialog(attachedTo: topView, message: "Posting tweet ...")
             let newTweet = replyTweetPrefix + compositionField.text.trim()
             TwitterService.sharedInstance.postUpdate(newTweet,
-                replyTo: tweetToReply?.user.screenName,
+                replyTo: tweetToReply?.id,
                 onSuccess: { (tweet) -> Void in
                     progress.hide(true)
                     self.newTweetPostedCallback?.onNewTweetPosted(tweet)

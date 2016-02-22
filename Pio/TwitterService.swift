@@ -121,9 +121,9 @@ class TwitterService {
         return loadTimeline(params, onSuccess: onSuccess, onFailure: onFailure)
     }
     
-    func postUpdate(status: String, replyTo: String? = nil, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    func postUpdate(status: String, replyTo: Int64? = nil, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
         return session.POST("1.1/statuses/update.json",
-            parameters: ["status": status.truncate(140), "in_reply_to_status_id": replyTo ?? ""],
+            parameters: ["status": status.truncate(140), "in_reply_to_status_id": replyTo != nil ? String(replyTo!): ""],
             success: { (_, response) -> Void in
                 do {
                     let json = JSON(response)
