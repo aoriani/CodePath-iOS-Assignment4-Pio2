@@ -39,13 +39,9 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories (Tap the screenshot to watch on Youtube):
+Here's a walkthrough of implemented user stories:
 
-[![Walktrough](http://img.youtube.com/vi/Jk3krJJScHU/0.jpg)](https://youtu.be/Jk3krJJScHU)
-
-I decided to use my iPod Touch for the walktrough, capturing the screen with QuickTime. I didn't manage to find a tool
-to convert the video to animated gif, so I uploaded the walktrough to Youtube.
-
+![Video Walkthrough](walktrough.gif)
 ## Notes
 
 Describe any challenges encountered while building the app.
