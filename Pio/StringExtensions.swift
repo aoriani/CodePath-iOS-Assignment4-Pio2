@@ -33,7 +33,7 @@ extension String {
         return self.stringByReplacingOccurrencesOfString(text, withString: replacement, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
     
-    var lenght: Int {
+    var length: Int {
         return self.characters.count
     }
 }

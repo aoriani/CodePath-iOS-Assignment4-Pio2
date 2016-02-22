@@ -67,7 +67,7 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
             repliedTweetContainer.hidden = true
         }
         
-        maxTweetLenght = ComposerViewController.MAX_TWEET_SIZE - replyTweetPrefix.lenght
+        maxTweetLenght = ComposerViewController.MAX_TWEET_SIZE - replyTweetPrefix.length
         charCounter.title = "\(maxTweetLenght)"
     }
 
