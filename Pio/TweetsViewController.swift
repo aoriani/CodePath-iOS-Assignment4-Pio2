@@ -69,4 +69,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
     func onNewTweetPosted(tweet: Tweet) {
         dataSource.prepend(tweet)
     }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        //redirect
+        dataSource.scrollViewDidScroll(scrollView)
+    }
 }

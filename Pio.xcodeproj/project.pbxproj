@@ -24,6 +24,7 @@
 		999CAEB11C771BFD00CECA57 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEB01C771BFD00CECA57 /* User.swift */; };
 		999CAEB41C78313000CECA57 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEB31C78313000CECA57 /* UserManager.swift */; };
 		99A96B121C7850B800FC3577 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A96B111C7850B800FC3577 /* TweetsViewController.swift */; };
+		99CC0BD21C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CC0BD11C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift */; };
 		C6168019DCDEB3D903C2BC9A /* Pods_Pio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662FBA258641DB11B061CEE1 /* Pods_Pio.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		999CAEB01C771BFD00CECA57 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		999CAEB31C78313000CECA57 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		99A96B111C7850B800FC3577 /* TweetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TweetsViewController.swift; path = Pio/TweetsViewController.swift; sourceTree = "<group>"; };
+		99CC0BD11C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 			children = (
 				9969718C1C794C880014777E /* TweetTableViewCell.swift */,
 				996971931C798D3A0014777E /* DialogUtils.swift */,
+				99CC0BD11C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99CC0BD21C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift in Sources */,
 				999CAEB41C78313000CECA57 /* UserManager.swift in Sources */,
 				999CAEAD1C76F51B00CECA57 /* StringExtensions.swift in Sources */,
 				996971891C79356B0014777E /* UIImageView+Loading.swift in Sources */,

@@ -89,9 +89,9 @@ class TwitterService {
         session.requestSerializer.removeAccessToken()
     }
     
-    func loadTimeline(onSuccess onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    private func loadTimeline(parameters: AnyObject?, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
         return session.GET("1.1/statuses/home_timeline.json",
-            parameters: ["count": 40],
+            parameters: parameters,
             success: { (_, response) -> Void in
                 do {
                     let array = response as! [NSDictionary]
@@ -109,6 +109,16 @@ class TwitterService {
             failure: { (_, _) -> Void in
                 onFailure()
         })
+    }
+    
+    func loadTimeline(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+        let params = ["count": 20]
+        return loadTimeline(params, onSuccess: onSuccess, onFailure: onFailure)
+    }
+    
+    func continueLoadTimeline(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+        let params = ["count": 20, "max_id": String(maxId)]
+        return loadTimeline(params, onSuccess: onSuccess, onFailure: onFailure)
     }
     
     func postUpdate(status: String, replyTo: String? = nil, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
