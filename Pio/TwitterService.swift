@@ -128,11 +128,31 @@ class TwitterService {
         })
     }
     
-    func favorite(tweetId:Int64, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    func like(tweetId:Int64, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
         
         let params = ["id": "\(tweetId)"]
         
         return session.POST("1.1/favorites/create.json",
+            parameters: params,
+            success: { (_, response) -> Void in
+                do {
+                    let json = JSON(response)
+                    let result = try Tweet.decode(json)
+                    onSuccess(result)
+                } catch {
+                    onFailure()
+                }
+            },
+            failure: { (_, _) -> Void in
+                onFailure()
+        })
+    }
+    
+    func unlike(tweetId:Int64, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
+        
+        let params = ["id": "\(tweetId)"]
+        
+        return session.POST("1.1/favorites/destroy.json",
             parameters: params,
             success: { (_, response) -> Void in
                 do {

@@ -10,8 +10,6 @@ import UIKit
 
 class TweetDetailsViewController: UIViewController {
     
-    var tweet: Tweet!
-    
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
@@ -19,6 +17,9 @@ class TweetDetailsViewController: UIViewController {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var retweetsCountLabel: UILabel!
     @IBOutlet weak var likesCountLabel: UILabel!
+    
+    var newTweetPostedCallback: OnNewTweetPostedCallback?
+    var tweet: Tweet!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,5 +32,17 @@ class TweetDetailsViewController: UIViewController {
         retweetsCountLabel.text = String(tweet.retweetCount)
         likesCountLabel.text = String(tweet.favoriteCount ?? 0)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "Tweet"
+    }
 
+    @IBAction func onReplyButtonPressed(sender: AnyObject) {
+        let composeViewController = self.storyboard?.instantiateViewControllerWithIdentifier("composeViewControler") as! ComposerViewController
+        composeViewController.tweetToReply = tweet
+        composeViewController.newTweetPostedCallback = newTweetPostedCallback
+        self.navigationItem.title = "Cancel"
+        self.navigationController?.pushViewController(composeViewController, animated: true)
+    }
 }

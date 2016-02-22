@@ -34,7 +34,7 @@ final class Tweet: Decodable {
     
     var humandReadableTimestampLong: String {
         let timestamp = getNSDateFromTimestamp()
-        Tweet.dateFormatter.dateFormat = "MMMM, d yyyy, h:mm a"
+        Tweet.dateFormatter.dateFormat = "MMMM, d yyyy h:mm a"
         return Tweet.dateFormatter.stringFromDate(timestamp)
     }
     

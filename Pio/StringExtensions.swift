@@ -32,4 +32,8 @@ extension String {
     func replace(text: String, by replacement: String) -> String {
         return self.stringByReplacingOccurrencesOfString(text, withString: replacement, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
+    
+    var lenght: Int {
+        return self.characters.count
+    }
 }

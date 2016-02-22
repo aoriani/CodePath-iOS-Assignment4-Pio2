@@ -22,8 +22,21 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var compositionField: UITextView!
     @IBOutlet weak var charCounter: UIBarButtonItem!
     
-    var maxTweetLenght:Int = 140
+    
+    @IBOutlet weak var repliedTweetContainer: UIView!
+    @IBOutlet weak var repliedTweetNameLabel: UILabel!
+    @IBOutlet weak var repliedTweetScreenNameLabel: UILabel!
+    @IBOutlet weak var repliedTweetTmstpLabel: UILabel!
+    @IBOutlet weak var repliedTweetAvatarImageView: UIImageView!
+    @IBOutlet weak var repliedTweetTextView: UITextView!
+    
+    static let MAX_TWEET_SIZE = 140 //Sorry, but i prefer capital letters for constant
+    
+    private var maxTweetLenght:Int = ComposerViewController.MAX_TWEET_SIZE
+    
     var newTweetPostedCallback: OnNewTweetPostedCallback?
+    var tweetToReply: Tweet?
+    private var replyTweetPrefix = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +47,30 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
         screenNameLabel.text = "@\(currentUser.screenName)"
         avatarImageView.fadedSetImageWithUrl(NSURL(string: currentUser.biggerProfileImageUrl)!)
         
-        charCounter.title = "\(maxTweetLenght)"
+        
         
         compositionField.delegate = self
         compositionField.layer.cornerRadius = 10
         compositionField.layer.borderWidth = 1
         compositionField.layer.borderColor = UIColor.init(colorLiteralRed: 0.1, green: 0.75, blue: 0.875, alpha: 1).CGColor
         compositionField.becomeFirstResponder()
+        
+        repliedTweetContainer.layer.cornerRadius = 10
+        
+        if let tweetToReply = tweetToReply {
+            replyTweetPrefix = "@\(tweetToReply.user.screenName) "
+            repliedTweetAvatarImageView.fadedSetImageWithUrl(NSURL(string: tweetToReply.user.biggerProfileImageUrl)!)
+            repliedTweetNameLabel.text = tweetToReply.user.name
+            repliedTweetScreenNameLabel.text = "@\(tweetToReply.user.screenName)"
+            repliedTweetTmstpLabel.text = tweetToReply.humandReadableTimestampShort
+            repliedTweetTextView.text = tweetToReply.text
+            repliedTweetContainer.hidden = false
+        } else {
+            repliedTweetContainer.hidden = true
+        }
+        
+        maxTweetLenght = ComposerViewController.MAX_TWEET_SIZE - replyTweetPrefix.lenght
+        charCounter.title = "\(maxTweetLenght)"
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,8 +100,9 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
     @IBAction func onPostButtonClicked(sender: AnyObject) {
         if !compositionField.text.isEmpty {
             let progress = showProgressDialog(attachedTo: topView, message: "Posting tweet ...")
-            TwitterService.sharedInstance.postUpdate(compositionField.text.trim(),
-                replyTo: nil,
+            let newTweet = replyTweetPrefix + compositionField.text.trim()
+            TwitterService.sharedInstance.postUpdate(newTweet,
+                replyTo: tweetToReply?.user.screenName,
                 onSuccess: { (tweet) -> Void in
                     progress.hide(true)
                     self.newTweetPostedCallback?.onNewTweetPosted(tweet)

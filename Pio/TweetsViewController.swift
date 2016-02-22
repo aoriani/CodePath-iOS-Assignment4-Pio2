@@ -45,6 +45,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         let tweetDetailsVC = self.storyboard?.instantiateViewControllerWithIdentifier("tweetDetails") as! TweetDetailsViewController
         let selectedTweet = dataSource.getItemAt(indexPath)
         tweetDetailsVC.tweet = selectedTweet.type == .Retweet ? selectedTweet.originalTweet : selectedTweet
+        tweetDetailsVC.newTweetPostedCallback = self
         self.navigationController?.pushViewController(tweetDetailsVC, animated: true)
     }
     
