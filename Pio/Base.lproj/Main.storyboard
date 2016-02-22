@@ -104,7 +104,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="rQd-WC-OZ8">
-                                                    <rect key="frame" x="80" y="55" width="512" height="154"/>
+                                                    <rect key="frame" x="80" y="55" width="512" height="133"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
@@ -125,12 +125,17 @@
                                                 <constraint firstItem="4Ld-lo-S7Z" firstAttribute="baseline" secondItem="NeB-jc-aRH" secondAttribute="baseline" id="a3V-5E-aC5"/>
                                                 <constraint firstItem="2X8-PF-esd" firstAttribute="top" secondItem="Sm7-px-PhW" secondAttribute="topMargin" id="bsA-Qf-2QQ"/>
                                                 <constraint firstItem="vdd-hd-v6g" firstAttribute="top" secondItem="T6u-Ef-xH9" secondAttribute="top" id="cvc-tH-6QB"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="rQd-WC-OZ8" secondAttribute="bottom" id="hj1-mB-hqe"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="rQd-WC-OZ8" secondAttribute="bottom" id="hj1-mB-hqe"/>
                                                 <constraint firstItem="2X8-PF-esd" firstAttribute="leading" secondItem="Sm7-px-PhW" secondAttribute="leadingMargin" constant="10" id="ivL-WC-w4v"/>
                                                 <constraint firstItem="NeB-jc-aRH" firstAttribute="leading" secondItem="vdd-hd-v6g" secondAttribute="trailing" constant="5" id="kwS-uG-aGR"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="4Ld-lo-S7Z" secondAttribute="trailing" id="vWg-Ac-9aK"/>
                                                 <constraint firstItem="T6u-Ef-xH9" firstAttribute="leading" secondItem="Sm7-px-PhW" secondAttribute="leadingMargin" id="z4x-u9-X9I"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="7v5-0Z-66B"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="T6u-Ef-xH9" id="egO-5o-Guq"/>
@@ -295,6 +300,9 @@
                                     <constraint firstAttribute="width" constant="65" id="F2E-aB-1A1"/>
                                 </constraints>
                                 <state key="normal" image="retweet"/>
+                                <connections>
+                                    <action selector="retweetButtonPressed:" destination="idB-1D-ojE" eventType="touchUpInside" id="sNY-Op-3yW"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJ9-YX-LbF">
                                 <rect key="frame" x="495" y="404" width="65" height="72"/>
@@ -303,6 +311,9 @@
                                     <constraint firstAttribute="width" constant="65" id="tHZ-7C-DTU"/>
                                 </constraints>
                                 <state key="normal" image="like"/>
+                                <connections>
+                                    <action selector="likeButtonPressed:" destination="idB-1D-ojE" eventType="touchUpInside" id="6dn-RK-F0m"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -342,11 +353,14 @@
                     </view>
                     <connections>
                         <outlet property="avatarImageView" destination="3aA-Gc-hat" id="RIq-DY-HMX"/>
+                        <outlet property="likeButton" destination="bJ9-YX-LbF" id="CvF-VN-BqO"/>
                         <outlet property="likesCountLabel" destination="EN0-R4-QdR" id="vaf-bv-Ou3"/>
                         <outlet property="nameLabel" destination="4Mh-US-ric" id="ymu-ih-9b1"/>
+                        <outlet property="retweetButton" destination="bNW-tG-1oi" id="TrT-IQ-5c0"/>
                         <outlet property="retweetsCountLabel" destination="yDu-Ya-XnT" id="cKi-SQ-qnR"/>
                         <outlet property="screenNameLabel" destination="D8z-Vg-KWu" id="2pS-Y8-ZhV"/>
                         <outlet property="timestampLabel" destination="AzX-Ta-49Q" id="bE9-Jo-9tZ"/>
+                        <outlet property="topView" destination="Kbh-kT-Kco" id="JGh-zD-CbN"/>
                         <outlet property="tweetTextView" destination="4F6-1K-s6q" id="qNg-PM-6lm"/>
                     </connections>
                 </viewController>

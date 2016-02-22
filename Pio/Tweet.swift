@@ -10,6 +10,15 @@ import Foundation
 import ELCodable
 import DateTools
 
+
+struct CurrentUserRetweet: Decodable {
+    var id: Int64
+    
+    static func decode(json: JSON?) throws -> CurrentUserRetweet {
+        return try CurrentUserRetweet(id: json ==> "id")
+    }
+}
+
 final class Tweet: Decodable {
     
     static let dateFormatter = NSDateFormatter()
@@ -18,13 +27,14 @@ final class Tweet: Decodable {
     var user: User
     var text: String
     var creationDate: String
-    var favoriteCount: Int?
+    var favoriteCount: Int
     var isUserFavorite: Bool
     var id: Int64
     var replyToScreenName: String?
     var retweetCount:Int
     var wasRetweetedByUser: Bool
     var originalTweet: Tweet?
+    var currentUserRetweet: CurrentUserRetweet?
     
     var humandReadableTimestampShort: String  {
         get {
@@ -61,13 +71,14 @@ final class Tweet: Decodable {
         user: User,
         text: String,
         creationDate: String,
-        favoriteCount: Int?,
+        favoriteCount: Int,
         isUserFavorite: Bool,
         id: Int64,
         replyToScreenName: String?,
         retweetCount:Int,
         wasRetweetedByUser: Bool,
-        originalTweet: Tweet?) {
+        originalTweet: Tweet?,
+        currentUserRetweet: CurrentUserRetweet?) {
             
             self.user = user
             self.text = text
@@ -79,6 +90,7 @@ final class Tweet: Decodable {
             self.retweetCount = retweetCount
             self.wasRetweetedByUser = wasRetweetedByUser
             self.originalTweet = originalTweet
+            self.currentUserRetweet = currentUserRetweet
     }
     
     static func decode(json: JSON?) throws -> Tweet {
@@ -92,7 +104,8 @@ final class Tweet: Decodable {
             replyToScreenName: json ==> "in_reply_to_screen_name",
             retweetCount: json ==> "retweet_count",
             wasRetweetedByUser: json ==> "retweeted",
-            originalTweet: json ==> "retweeted_status"
+            originalTweet: json ==> "retweeted_status",
+            currentUserRetweet: json ==> "current_user_retweet"
         )
     }
 }

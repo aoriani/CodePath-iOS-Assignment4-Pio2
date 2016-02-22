@@ -185,4 +185,36 @@ class TwitterService {
         })
     }
     
+    func deleteTweet(id:Int64, onSuccess: () -> Void, onFailure: () -> Void = {}) -> NetTask {
+        return session.POST("1.1/statuses/destroy/\(id).json",
+            parameters: nil,
+            success: { (_, response) -> Void in
+                    onSuccess()
+            },
+            failure: { (_, _) -> Void in
+                onFailure()
+        })
+    }
+    
+    
+    func getTweet(tweetId:Int64, includeRetweet: Bool = false, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
+        
+        let params = ["id": "\(tweetId)", "include_my_retweet": includeRetweet]
+        
+        return session.GET("1.1/statuses/show.json",
+            parameters: params,
+            success: { (_, response) -> Void in
+                do {
+                    let json = JSON(response)
+                    let result = try Tweet.decode(json)
+                    onSuccess(result)
+                } catch {
+                    onFailure()
+                }
+            },
+            failure: { (_, _) -> Void in
+                onFailure()
+        })
+    }
+   
 }

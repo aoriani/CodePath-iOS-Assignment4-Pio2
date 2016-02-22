@@ -47,8 +47,6 @@ class ComposerViewController: UIViewController, UITextViewDelegate {
         screenNameLabel.text = "@\(currentUser.screenName)"
         avatarImageView.fadedSetImageWithUrl(NSURL(string: currentUser.biggerProfileImageUrl)!)
         
-        
-        
         compositionField.delegate = self
         compositionField.layer.cornerRadius = 10
         compositionField.layer.borderWidth = 1
