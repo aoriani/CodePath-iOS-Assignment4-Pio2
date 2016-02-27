@@ -14,6 +14,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
     
     @IBOutlet var topView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var drawerButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         
-        dataSource = TweetDataSource(forTable: tableView)
+        dataSource = TweetDataSource(forTable: tableView,
+            initialLoadEndpoint: TwitterService.loadTimeline,
+            loadMoreEnpoint: TwitterService.continueLoadTimeline)
+        
         let progressDialog = showProgressDialog(attachedTo: topView, message: "Loading Tweets")
         dataSource.reloadData {
             progressDialog.hide(true)
@@ -32,6 +36,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         refreshControl.tintColor = UIColor.init(colorLiteralRed: 0.1, green: 0.75, blue: 0.875, alpha: 1)
         tableView.insertSubview(refreshControl, atIndex: 0)
         refreshControl.addTarget(self, action: "refreshAction:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        drawerButton.target = nil
+        drawerButton.action = "onDrawerButtonPressed:"
     }
 
     func refreshAction(refreshControl: UIRefreshControl) {

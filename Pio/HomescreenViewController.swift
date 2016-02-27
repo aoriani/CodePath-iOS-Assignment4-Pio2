@@ -15,13 +15,36 @@ class HomescreenViewController: UIViewController {
     @IBOutlet weak var contentViewLeftMargin: NSLayoutConstraint!
     @IBOutlet weak var menuWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var userAvatarImageView: UIImageView!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var userScreenNameLabel: UILabel!
+    
+    private var activeViewController: UIViewController? {
+        didSet {
+            removeInactiveViewController(oldValue)
+            updateActiveViewController()
+        }
+    }
+    
     private var initialLeftMarginContent: CGFloat!
+    private var drawerOpen = false
+
+    private var timelineViewController: UIViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addShadow(toView: menuView)
         addShadow(toView: contentView)
+        
+        timelineViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController")
+        
+        activeViewController = timelineViewController
+        
+        let currentUser = UserManager.singleton.currentUser!
+        userAvatarImageView.fadedSetImageWithUrl(NSURL(string: currentUser.biggerProfileImageUrl)!)
+        userNameLabel.text = currentUser.name
+        userScreenNameLabel.text = "@\(currentUser.screenName)"
         
     }
     
@@ -32,6 +55,33 @@ class HomescreenViewController: UIViewController {
         view.layer.shadowOpacity = 0.80
         view.layer.shadowPath = UIBezierPath(rect: view.layer.bounds).CGPath
     }
+    
+    
+    private func removeInactiveViewController(inactiveViewController: UIViewController?) {
+        if let inActiveVC = inactiveViewController {
+            // call before removing child view controller's view from hierarchy
+            inActiveVC.willMoveToParentViewController(nil)
+            
+            inActiveVC.view.removeFromSuperview()
+            
+            // call after removing child view controller's view from hierarchy
+            inActiveVC.removeFromParentViewController()
+        }
+    }
+    
+    private func updateActiveViewController() {
+        if let activeVC = activeViewController {
+            // call before adding child view controller's view as subview
+            addChildViewController(activeVC)
+            
+            activeVC.view.frame = contentView.bounds
+            contentView.addSubview(activeVC.view)
+            
+            // call before adding child view controller's view as subview
+            activeVC.didMoveToParentViewController(self)
+        }
+    }
+    
     
     @IBAction func onContentPan(gesture: UIPanGestureRecognizer) {
         
@@ -47,20 +97,35 @@ class HomescreenViewController: UIViewController {
                 contentViewLeftMargin.constant = newPosition
             }
         case .Ended:
-            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: [.CurveEaseInOut,.LayoutSubviews], animations: {
-                if velocity.x > 0 {
-                    self.contentViewLeftMargin.constant = self.menuWidth.constant
-                } else {
-                    self.contentViewLeftMargin.constant = 0
-                }
-                self.view.layoutIfNeeded()
-                }, completion: nil)
+            toggleDrawer(willOpen: velocity.x > 0)
             
         default:
             // Do nothing
             break
         }
         
+    }
+    
+    private func toggleDrawer(willOpen willOpen:Bool) {
+        UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: [.CurveEaseInOut,.LayoutSubviews], animations: {
+            if willOpen {
+                self.contentViewLeftMargin.constant = self.menuWidth.constant
+                self.drawerOpen = true
+            } else {
+                self.contentViewLeftMargin.constant = 0
+                self.drawerOpen = false
+            }
+            self.view.layoutIfNeeded()
+            }, completion: nil)
+    }
+
+
+    func onDrawerButtonPressed(sender: UIBarButtonItem){
+        toggleDrawer(willOpen: !drawerOpen)
+    }
+    
+    @IBAction func onLogoutPressed(sender: AnyObject) {
+        UserManager.singleton.logout()
     }
     
 }

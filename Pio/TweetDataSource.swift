@@ -14,14 +14,18 @@ class TweetDataSource:NSObject, UITableViewDataSource, UIScrollViewDelegate {
     
     private var tableView: UITableView
     private var items:[Tweet] = []
-    private var loadTask: TwitterService.NetTask? = nil
-    private var subLoadTask: TwitterService.NetTask? = nil
+    private var loadTask: NetTask? = nil
+    private var subLoadTask: NetTask? = nil
+    private var initialLoadEndpoint: InitialLoadEnpoint!
+    private var loadMoreEnpoint: LoadMoreEnpoint!
     private var loadingMoreView:InfiniteScrollActivityView?
     
     var isMoreDataLoading = false
     
-    init(forTable tableView: UITableView) {
+    init(forTable tableView: UITableView, initialLoadEndpoint: InitialLoadEnpoint, loadMoreEnpoint: LoadMoreEnpoint) {
         self.tableView = tableView
+        self.initialLoadEndpoint = initialLoadEndpoint
+        self.loadMoreEnpoint = loadMoreEnpoint
         super.init()
         self.tableView.dataSource = self
         
@@ -52,7 +56,7 @@ class TweetDataSource:NSObject, UITableViewDataSource, UIScrollViewDelegate {
         isMoreDataLoading  = false
         
         if loadTask == nil {
-            loadTask = TwitterService.sharedInstance.loadTimeline({
+            loadTask = initialLoadEndpoint(TwitterService.sharedInstance)(onSuccess: {
                 (tweets) -> Void in
                 self.loadTask = nil
                 self.items = tweets
@@ -108,7 +112,7 @@ class TweetDataSource:NSObject, UITableViewDataSource, UIScrollViewDelegate {
             }
         }
         
-        subLoadTask = TwitterService.sharedInstance.continueLoadTimeline((lowestTweetId - 1),
+        subLoadTask = loadMoreEnpoint(TwitterService.sharedInstance)(maxId: (lowestTweetId - 1),
             onSuccess: { tweets in
                 self.subLoadTask = nil
                 self.isMoreDataLoading = false

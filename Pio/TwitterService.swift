@@ -10,9 +10,11 @@ import Foundation
 import BDBOAuth1Manager
 import ELCodable
 
+typealias NetTask = NSURLSessionDataTask!
+typealias InitialLoadEnpoint = (TwitterService -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask)
+typealias LoadMoreEnpoint = (TwitterService -> (maxId: Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask)
+
 class TwitterService {
-    
-    typealias NetTask = NSURLSessionDataTask!
     
     private let session = SessioManager()
     
@@ -89,38 +91,60 @@ class TwitterService {
         session.requestSerializer.removeAccessToken()
     }
     
-    private func loadTimeline(parameters: AnyObject?, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        return session.GET("1.1/statuses/home_timeline.json",
-            parameters: parameters,
-            success: { (_, response) -> Void in
-                do {
-                    let array = response as! [NSDictionary]
-                    var tweetArray = [Tweet]()
-                    for elem in array {
-                        let json = JSON(elem)
-                        let tweet = try Tweet.decode(json)
-                        tweetArray.append(tweet)
+    
+    private func createRetrieveTweetEndpoint(endpointPath: String, parameters: AnyObject?) -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask {
+        func endpoint(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+            return session.GET(endpointPath,
+                parameters: parameters,
+                success: { (_, response) -> Void in
+                    do {
+                        let array = response as! [NSDictionary]
+                        var tweetArray = [Tweet]()
+                        for elem in array {
+                            let json = JSON(elem)
+                            let tweet = try Tweet.decode(json)
+                            tweetArray.append(tweet)
+                        }
+                        onSuccess(tweetArray)
+                    } catch {
+                        onFailure()
                     }
-                    onSuccess(tweetArray)
-                } catch {
+                },
+                failure: { (_, _) -> Void in
                     onFailure()
-                }
-            },
-            failure: { (_, _) -> Void in
-                onFailure()
-        })
+            })
+
+        }
+        
+        return endpoint
+    }
+    
+    private func createInitialTweetLoadEnpoint(endpointPath: String) -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask {
+        let params = ["count": 20]
+        return createRetrieveTweetEndpoint(endpointPath, parameters: params)
+    }
+    
+    private func createLoadMoreTweetEndpoint(endpointPath: String, maxId: Int64) -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask {
+        let params = ["count": 20, "max_id": String(maxId)]
+        return createRetrieveTweetEndpoint(endpointPath, parameters: params)
     }
     
     func loadTimeline(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        let params = ["count": 20]
-        return loadTimeline(params, onSuccess: onSuccess, onFailure: onFailure)
+        return createInitialTweetLoadEnpoint("1.1/statuses/home_timeline.json")(onSuccess: onSuccess, onFailure: onFailure)
     }
     
     func continueLoadTimeline(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        let params = ["count": 20, "max_id": String(maxId)]
-        return loadTimeline(params, onSuccess: onSuccess, onFailure: onFailure)
+        return createLoadMoreTweetEndpoint("1.1/statuses/home_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
     }
     
+    func loadMentions(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+        return createInitialTweetLoadEnpoint("1.1/statuses/mentions_timeline.json")(onSuccess: onSuccess, onFailure: onFailure)
+    }
+    
+    func continueLoadMentions(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+        return createLoadMoreTweetEndpoint("1.1/statuses/mentions_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
+    }
+
     func postUpdate(status: String, replyTo: Int64? = nil, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
         return session.POST("1.1/statuses/update.json",
             parameters: ["status": status.truncate(140), "in_reply_to_status_id": replyTo != nil ? String(replyTo!): ""],
