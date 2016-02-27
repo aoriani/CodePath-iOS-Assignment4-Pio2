@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             object: nil)
         
         if UserManager.singleton.currentUser != nil { // It is logged in  
-            let tweetsVC = storyBoard.instantiateViewControllerWithIdentifier("tweetsNavViewController")
+            let tweetsVC = storyBoard.instantiateViewControllerWithIdentifier("homescreenViewController")
             window?.rootViewController = tweetsVC
         }
         

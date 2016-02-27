@@ -20,6 +20,7 @@
 		996971941C798D3A0014777E /* DialogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996971931C798D3A0014777E /* DialogUtils.swift */; };
 		996971961C79D05B0014777E /* TweetDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996971951C79D05B0014777E /* TweetDetailsViewController.swift */; };
 		996971981C79D0880014777E /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996971971C79D0880014777E /* ComposerViewController.swift */; };
+		9990D8DF1C814E09005DC362 /* HomescreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9990D8DE1C814E09005DC362 /* HomescreenViewController.swift */; };
 		999CAEAD1C76F51B00CECA57 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEAC1C76F51B00CECA57 /* StringExtensions.swift */; };
 		999CAEB11C771BFD00CECA57 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEB01C771BFD00CECA57 /* User.swift */; };
 		999CAEB41C78313000CECA57 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEB31C78313000CECA57 /* UserManager.swift */; };
@@ -47,6 +48,7 @@
 		996971931C798D3A0014777E /* DialogUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogUtils.swift; sourceTree = "<group>"; };
 		996971951C79D05B0014777E /* TweetDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TweetDetailsViewController.swift; path = Pio/TweetDetailsViewController.swift; sourceTree = "<group>"; };
 		996971971C79D0880014777E /* ComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComposerViewController.swift; path = Pio/ComposerViewController.swift; sourceTree = "<group>"; };
+		9990D8DE1C814E09005DC362 /* HomescreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomescreenViewController.swift; path = Pio/HomescreenViewController.swift; sourceTree = "<group>"; };
 		999CAEAC1C76F51B00CECA57 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		999CAEB01C771BFD00CECA57 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		999CAEB31C78313000CECA57 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				992AA4721C742FCB00B896F0 /* NoCredentialsViewController.swift */,
 				99A96B111C7850B800FC3577 /* TweetsViewController.swift */,
 				996971951C79D05B0014777E /* TweetDetailsViewController.swift */,
+				9990D8DE1C814E09005DC362 /* HomescreenViewController.swift */,
 			);
 			name = ViewControllers;
 			path = ..;
@@ -316,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99CC0BD21C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift in Sources */,
+				9990D8DF1C814E09005DC362 /* HomescreenViewController.swift in Sources */,
 				999CAEB41C78313000CECA57 /* UserManager.swift in Sources */,
 				999CAEAD1C76F51B00CECA57 /* StringExtensions.swift in Sources */,
 				996971891C79356B0014777E /* UIImageView+Loading.swift in Sources */,

@@ -24,7 +24,7 @@ class NoCredentialsViewController: UIViewController {
     @IBAction func onTwitterLoginButtonPressed(sender: AnyObject) {
         UserManager.singleton.startLoginFlow(onSuccess: {
                 user in
-                    let tweetsVC = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController")
+                    let tweetsVC = self.storyboard?.instantiateViewControllerWithIdentifier("homescreenViewController")
                     self.presentViewController(tweetsVC!, animated: true, completion: nil)
             },
             onFailure: {msg in showErrorDialog(msg)})
