@@ -19,7 +19,7 @@ class HomescreenViewController: UIViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userScreenNameLabel: UILabel!
     
-    private var activeViewController: UIViewController? {
+    private var activeViewController: UINavigationController? {
         didSet {
             removeInactiveViewController(oldValue)
             updateActiveViewController()
@@ -65,8 +65,13 @@ class HomescreenViewController: UIViewController {
     }
     
     
-    private func removeInactiveViewController(inactiveViewController: UIViewController?) {
+    private func removeInactiveViewController(inactiveViewController: UINavigationController?) {
         if let inActiveVC = inactiveViewController {
+            
+            if inActiveVC.viewControllers.count > 1 {
+                inActiveVC.popToRootViewControllerAnimated(false)
+            }
+            
             // call before removing child view controller's view from hierarchy
             inActiveVC.willMoveToParentViewController(nil)
             
