@@ -20,7 +20,7 @@ class TweetDataSource:NSObject, UITableViewDataSource, UIScrollViewDelegate {
     private var loadMoreEnpoint: LoadMoreEnpoint!
     private var loadingMoreView:InfiniteScrollActivityView?
     
-    var isMoreDataLoading = false
+    private var isMoreDataLoading = false
     
     init(forTable tableView: UITableView, initialLoadEndpoint: InitialLoadEnpoint, loadMoreEnpoint: LoadMoreEnpoint) {
         self.tableView = tableView

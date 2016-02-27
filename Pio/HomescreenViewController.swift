@@ -29,7 +29,8 @@ class HomescreenViewController: UIViewController {
     private var initialLeftMarginContent: CGFloat!
     private var drawerOpen = false
 
-    private var timelineViewController: UIViewController!
+    private var timelineViewController: UINavigationController!
+    private var mentionsViewController: UINavigationController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,14 @@ class HomescreenViewController: UIViewController {
         addShadow(toView: menuView)
         addShadow(toView: contentView)
         
-        timelineViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController")
+        timelineViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController") as! UINavigationController
+        
+        mentionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController") as! UINavigationController
+        let mentionsControler = mentionsViewController.topViewController as! TweetsViewController
+        mentionsControler.originalTitle = "Mentions"
+        mentionsControler.initialLoadEndpoint = TwitterService.loadMentions
+        mentionsControler.loadMoreEnpoint = TwitterService.continueLoadMentions
+
         
         activeViewController = timelineViewController
         
@@ -126,6 +134,16 @@ class HomescreenViewController: UIViewController {
     
     @IBAction func onLogoutPressed(sender: AnyObject) {
         UserManager.singleton.logout()
+    }
+    
+    @IBAction func onTimelinePressed(sender: AnyObject) {
+        activeViewController = timelineViewController
+        toggleDrawer(willOpen: false)
+    }
+    
+    @IBAction func onMentionsPressed(sender: AnyObject) {
+        activeViewController = mentionsViewController
+        toggleDrawer(willOpen: false)
     }
     
 }
