@@ -21,6 +21,8 @@
 		996971961C79D05B0014777E /* TweetDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996971951C79D05B0014777E /* TweetDetailsViewController.swift */; };
 		996971981C79D0880014777E /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996971971C79D0880014777E /* ComposerViewController.swift */; };
 		9990D8DF1C814E09005DC362 /* HomescreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9990D8DE1C814E09005DC362 /* HomescreenViewController.swift */; };
+		9990D8E11C82798F005DC362 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9990D8E01C82798F005DC362 /* ProfileTableViewCell.swift */; };
+		9990D8E31C827F75005DC362 /* ProfileTweetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9990D8E21C827F75005DC362 /* ProfileTweetDataSource.swift */; };
 		999CAEAD1C76F51B00CECA57 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEAC1C76F51B00CECA57 /* StringExtensions.swift */; };
 		999CAEB11C771BFD00CECA57 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEB01C771BFD00CECA57 /* User.swift */; };
 		999CAEB41C78313000CECA57 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999CAEB31C78313000CECA57 /* UserManager.swift */; };
@@ -49,6 +51,8 @@
 		996971951C79D05B0014777E /* TweetDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TweetDetailsViewController.swift; path = Pio/TweetDetailsViewController.swift; sourceTree = "<group>"; };
 		996971971C79D0880014777E /* ComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComposerViewController.swift; path = Pio/ComposerViewController.swift; sourceTree = "<group>"; };
 		9990D8DE1C814E09005DC362 /* HomescreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomescreenViewController.swift; path = Pio/HomescreenViewController.swift; sourceTree = "<group>"; };
+		9990D8E01C82798F005DC362 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		9990D8E21C827F75005DC362 /* ProfileTweetDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTweetDataSource.swift; sourceTree = "<group>"; };
 		999CAEAC1C76F51B00CECA57 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		999CAEB01C771BFD00CECA57 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		999CAEB31C78313000CECA57 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				9969718C1C794C880014777E /* TweetTableViewCell.swift */,
 				996971931C798D3A0014777E /* DialogUtils.swift */,
 				99CC0BD11C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift */,
+				9990D8E01C82798F005DC362 /* ProfileTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				9969718F1C79552A0014777E /* TweetDataSource.swift */,
+				9990D8E21C827F75005DC362 /* ProfileTweetDataSource.swift */,
 			);
 			name = DataSources;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9990D8E31C827F75005DC362 /* ProfileTweetDataSource.swift in Sources */,
 				99CC0BD21C7ACD7300BAAD0A /* InfiniteScrollActivityView.swift in Sources */,
 				9990D8DF1C814E09005DC362 /* HomescreenViewController.swift in Sources */,
 				999CAEB41C78313000CECA57 /* UserManager.swift in Sources */,
@@ -329,6 +336,7 @@
 				996971981C79D0880014777E /* ComposerViewController.swift in Sources */,
 				992AA4731C742FCB00B896F0 /* NoCredentialsViewController.swift in Sources */,
 				992AA4711C742FCB00B896F0 /* AppDelegate.swift in Sources */,
+				9990D8E11C82798F005DC362 /* ProfileTableViewCell.swift in Sources */,
 				99A96B121C7850B800FC3577 /* TweetsViewController.swift in Sources */,
 				999CAEB11C771BFD00CECA57 /* User.swift in Sources */,
 				992AA4841C7444BA00B896F0 /* TwitterService.swift in Sources */,

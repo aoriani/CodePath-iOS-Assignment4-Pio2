@@ -13,7 +13,7 @@ struct User: Decodable {
     var name: String
     var screenName: String
     var profileImageUrl: String
-    var profileBanner: String
+    var profileBanner: String?
     var creationDate: String
     var description: String?
     var favoritesCount: Int

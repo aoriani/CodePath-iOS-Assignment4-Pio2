@@ -11,8 +11,10 @@ import BDBOAuth1Manager
 import ELCodable
 
 typealias NetTask = NSURLSessionDataTask!
-typealias InitialLoadEnpoint = (TwitterService -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask)
-typealias LoadMoreEnpoint = (TwitterService -> (maxId: Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask)
+typealias InitialLoadMethod = (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask
+typealias InitialLoadEnpoint = (TwitterService ->  InitialLoadMethod)
+typealias LoadMoreMethod = (maxId: Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask
+typealias LoadMoreEnpoint = (TwitterService -> LoadMoreMethod)
 
 class TwitterService {
     
@@ -92,7 +94,7 @@ class TwitterService {
     }
     
     
-    private func createRetrieveTweetEndpoint(endpointPath: String, parameters: AnyObject?) -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask {
+    private func createRetrieveTweetEndpoint(endpointPath: String, parameters: AnyObject?) -> InitialLoadMethod {
         func endpoint(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
             return session.GET(endpointPath,
                 parameters: parameters,
@@ -107,6 +109,7 @@ class TwitterService {
                         }
                         onSuccess(tweetArray)
                     } catch {
+                        print("Exception")
                         onFailure()
                     }
                 },
@@ -119,12 +122,12 @@ class TwitterService {
         return endpoint
     }
     
-    private func createInitialTweetLoadEnpoint(endpointPath: String) -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask {
+    private func createInitialTweetLoadEnpoint(endpointPath: String) -> InitialLoadMethod {
         let params = ["count": 20]
         return createRetrieveTweetEndpoint(endpointPath, parameters: params)
     }
     
-    private func createLoadMoreTweetEndpoint(endpointPath: String, maxId: Int64) -> (onSuccess: ([Tweet]) -> Void, onFailure: () -> Void) -> NetTask {
+    private func createLoadMoreTweetEndpoint(endpointPath: String, maxId: Int64) -> InitialLoadMethod {
         let params = ["count": 20, "max_id": String(maxId)]
         return createRetrieveTweetEndpoint(endpointPath, parameters: params)
     }
@@ -143,6 +146,19 @@ class TwitterService {
     
     func continueLoadMentions(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
         return createLoadMoreTweetEndpoint("1.1/statuses/mentions_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
+    }
+    
+    func createloadUserTweetsEndpoint(userId: String) -> InitialLoadMethod {
+        let params = ["count": 20, "user_id": userId]
+        return createRetrieveTweetEndpoint("1.1/statuses/user_timeline.json", parameters: params)
+    }
+    
+    func createContinueLoadUserTweetsEndpoint(userId: String) -> LoadMoreMethod {
+        let method = { (maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void ) -> NetTask in
+            let params = ["count": 20, "user_id": userId, "max_id": String(maxId)]
+            return self.createRetrieveTweetEndpoint("1.1/statuses/user_timeline.json", parameters: params)(onSuccess: onSuccess, onFailure: onFailure)
+        }
+        return method
     }
 
     func postUpdate(status: String, replyTo: Int64? = nil, onSuccess: (Tweet) -> Void, onFailure: () -> Void = {}) -> NetTask {
