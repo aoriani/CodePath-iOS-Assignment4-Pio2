@@ -36,6 +36,8 @@ class HomescreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onAvatarImageTapped:", name: "avatarTapped", object: nil)
+        
         addShadow(toView: menuView)
         addShadow(toView: contentView)
         
@@ -70,7 +72,6 @@ class HomescreenViewController: UIViewController {
         userAvatarImageView.fadedSetImageWithUrl(NSURL(string: currentUser.biggerProfileImageUrl)!)
         userNameLabel.text = currentUser.name
         userScreenNameLabel.text = "@\(currentUser.screenName)"
-        
     }
     
     private func removeInactiveViewController(inactiveViewController: UINavigationController?) {
@@ -163,4 +164,35 @@ class HomescreenViewController: UIViewController {
         activeViewController = profileViewController
         toggleDrawer(willOpen: false)
     }
+    
+    
+    func onAvatarImageTapped(notification: NSNotification){
+        if activeViewController != profileViewController {
+            let dict = notification.userInfo as! [String: UserHolder]
+            let user = dict["user"]?.user
+            let tweetViewControler = self.storyboard?.instantiateViewControllerWithIdentifier("TweetsViewController") as! TweetsViewController
+            tweetViewControler.originalTitle = "@\(user!.screenName)"
+            tweetViewControler.dataSourceFactoryClosure = {
+                (tableView: UITableView) -> TweetDataSource in
+                return ProfileTweetDataSource(forTable: tableView, withUser: user!, initialLoadEndpoint: TwitterService.sharedInstance.createloadUserTweetsEndpoint(user!.id), loadMoreEnpoint: TwitterService.sharedInstance.createContinueLoadUserTweetsEndpoint(user!.id))
+            }
+            tweetViewControler.navigationItem.leftBarButtonItem = nil
+            
+            activeViewController?.pushViewController(tweetViewControler, animated: true)
+        }
+    }
+    
+    
+}
+
+//Wraps the user struct since NS classes only work with NSObjects 
+class UserHolder: NSObject {
+    
+    var user: User
+    
+    init(withUser user:User){
+        self.user = user
+        super.init()
+    }
+    
 }

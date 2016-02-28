@@ -1,47 +1,54 @@
-# Project 3 - *Pio*
+# Project 4 - *Pio2 - Twitter Redux*
 
-**Pio** is a basic twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
-
-Time spent: **17** hours spent in total
+Time spent: **15** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-- [x] User can sign in using OAuth login flow.
-- [x] User can view last 20 tweets from their home timeline.
-- [x] The current signed in user will be persisted across restarts.
-- [x] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.  In other words, design the custom cell with the proper Auto Layout settings.  You will also need to augment the model classes.
-- [x] User can pull to refresh.
-- [x] User can compose a new tweet by tapping on a compose button.
-- [x] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
+- [x] Hamburger menu
+   - [x] Dragging anywhere in the view should reveal the menu.
+   - [x] The menu should include links to your profile, the home timeline, and the mentions view.
+   - [x] The menu can look similar to the example or feel free to take liberty with the UI.
+- [x] Profile page
+   - [x] Contains the user header view
+   - [x] Contains a section with the users basic stats: # tweets, # following, # followers
+- [x] Home Timeline
+   - [x] Tapping on a user image should bring up that user's profile page
 
 The following **optional** features are implemented:
 
-- [x] When composing, you should have a countdown in the upper right for the tweet limit.
-- [x] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
-- [x] Retweeting and favoriting should increment the retweet and favorite count.
-- [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
-- [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet,
-- [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [x] Profile Page
+   - [x] Implement the paging view for the user description.
+   - [ ] As the paging view moves, increase the opacity of the background screen. See the actual Twitter app for this effect
+   - [ ] Pulling down the profile page should blur and resize the header image.
+- [ ] Account switching
+   - [ ] Long press on tab bar to bring up Account view with animation
+   - [ ] Tap account to switch to
+   - [ ] Include a plus button to Add an Account
+   - [ ] Swipe to delete an account
+
 
 The following **additional** features are implemented:
 
-- [x] Timestamps uses DateTools pod to provide relative time like "5 min ago"
-- [x] Extensions to String to provide support for trim, truncate, urlEncode
-- [x] When replying to a tweet, the original tweet is shown on composer screen
-- [x] Links on tweets are actionable in the Tweet details screen
+- [x] Use of CA layer to create shadows and increase the 3D feel, conveying the idea that the content view is really on top of menu, and that profile picture is on top of the banner.
+- [x] A drawer button to toogle between open an closed menu.
+- [x] Lots of code reuse from previous assigment. There's a single data source for home timeline and mentions sections. Profile uses a subclass of the original data source only to add the profile section. Factory methods and closures are responsible by loading the different contenta in a polymorphic way.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+  1.
+  2.
+
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
 ![Video Walkthrough](walktrough.gif)
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
 ## Notes
 
 Describe any challenges encountered while building the app.

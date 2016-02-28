@@ -14,7 +14,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
     
     @IBOutlet var topView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var drawerButton: UIBarButtonItem!
+    @IBOutlet weak var drawerButton: UIBarButtonItem?
     
     var originalTitle = "Tweets"
     var dataSourceFactoryClosure: ((UITableView) -> TweetDataSource)!
@@ -40,8 +40,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         tableView.insertSubview(refreshControl, atIndex: 0)
         refreshControl.addTarget(self, action: "refreshAction:", forControlEvents: UIControlEvents.ValueChanged)
         
-        drawerButton.target = nil
-        drawerButton.action = "onDrawerButtonPressed:"
+        drawerButton?.target = nil
+        drawerButton?.action = "onDrawerButtonPressed:"
     }
 
     func refreshAction(refreshControl: UIRefreshControl) {
@@ -84,4 +84,5 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         //redirect
         dataSource.scrollViewDidScroll(scrollView)
     }
+    
 }

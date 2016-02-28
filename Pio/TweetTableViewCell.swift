@@ -18,12 +18,15 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var screnNameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var tweetTexView: UITextView!
+    private var user:User!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.selectedBackgroundView = UIView()
         self.selectedBackgroundView?.backgroundColor = UIColor.init(colorLiteralRed: 0.9, green: 0.98, blue: 1, alpha: 1)
+        
+        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "onAvatarTapped:"))
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -82,7 +85,19 @@ class TweetTableViewCell: UITableViewCell {
             text = (tweet.originalTweet?.text)!
         }
         tweetTexView.text = text
+        
+        switch (tweet.type) {
+        case .Regular,.Reply:
+            user = tweet.user
+        case .Retweet:
+            user = (tweet.originalTweet?.user)!
+        }
+
 
     }
 
+    func onAvatarTapped(gesture: UITapGestureRecognizer) {
+        let dict = ["user": UserHolder(withUser: user)]
+        NSNotificationCenter.defaultCenter().postNotificationName("avatarTapped", object: self, userInfo: dict)
+    }
 }

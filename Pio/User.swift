@@ -33,7 +33,12 @@ struct User: Decodable {
     
     var profileBannerUrl: String {
         get{
-            return "\(profileBanner!)/mobile"
+            if let profileBanner = profileBanner {
+                return "\(profileBanner)/mobile"
+            } else {
+               return "https://pbs.twimg.com/profile_banners/6253282/1431474710/mobile"
+            }
+            
         }
     }
     
