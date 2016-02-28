@@ -58,3 +58,12 @@ extension UIImageView {
             failure: nil)
     }
 }
+
+func addShadow(toView view:UIView) {
+    view.layer.shadowOffset = CGSizeMake(1, 1)
+    view.layer.shadowColor = UIColor.blackColor().CGColor
+    view.layer.shadowRadius = 8.0
+    view.layer.shadowOpacity = 0.80
+    view.layer.shadowPath = UIBezierPath(rect: view.layer.bounds).CGPath
+}
+

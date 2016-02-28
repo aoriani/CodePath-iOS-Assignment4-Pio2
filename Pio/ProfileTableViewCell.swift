@@ -10,6 +10,8 @@ import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
     
+    static let id = "profileCell"
+    
     @IBOutlet weak var bannerImageView: UIImageView!
     @IBOutlet weak var avatarImageview: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -23,6 +25,10 @@ class ProfileTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.userInteractionEnabled = false
+        
+        addShadow(toView: avatarImageview)
+        avatarImageview.layer.borderColor = UIColor.whiteColor().CGColor
+        avatarImageview.layer.borderWidth = 2
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

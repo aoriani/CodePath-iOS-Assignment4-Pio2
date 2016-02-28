@@ -33,7 +33,7 @@ struct User: Decodable {
     
     var profileBannerUrl: String {
         get{
-            return "\(profileBanner)/mobile"
+            return "\(profileBanner!)/mobile"
         }
     }
     

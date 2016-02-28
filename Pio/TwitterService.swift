@@ -132,22 +132,6 @@ class TwitterService {
         return createRetrieveTweetEndpoint(endpointPath, parameters: params)
     }
     
-    func loadTimeline(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        return createInitialTweetLoadEnpoint("1.1/statuses/home_timeline.json")(onSuccess: onSuccess, onFailure: onFailure)
-    }
-    
-    func continueLoadTimeline(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        return createLoadMoreTweetEndpoint("1.1/statuses/home_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
-    }
-    
-    func loadMentions(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        return createInitialTweetLoadEnpoint("1.1/statuses/mentions_timeline.json")(onSuccess: onSuccess, onFailure: onFailure)
-    }
-    
-    func continueLoadMentions(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
-        return createLoadMoreTweetEndpoint("1.1/statuses/mentions_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
-    }
-    
     func createloadUserTweetsEndpoint(userId: String) -> InitialLoadMethod {
         let params = ["count": 20, "user_id": userId]
         return createRetrieveTweetEndpoint("1.1/statuses/user_timeline.json", parameters: params)
@@ -268,3 +252,20 @@ class TwitterService {
     }
    
 }
+
+func loadTimeline(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    return TwitterService.sharedInstance.createInitialTweetLoadEnpoint("1.1/statuses/home_timeline.json")(onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func continueLoadTimeline(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    return TwitterService.sharedInstance.createLoadMoreTweetEndpoint("1.1/statuses/home_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func loadMentions(onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    return TwitterService.sharedInstance.createInitialTweetLoadEnpoint("1.1/statuses/mentions_timeline.json")(onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func continueLoadMentions(maxId:Int64, onSuccess: ([Tweet]) -> Void, onFailure: () -> Void = {}) -> NetTask {
+    return TwitterService.sharedInstance.createLoadMoreTweetEndpoint("1.1/statuses/mentions_timeline.json", maxId: maxId)(onSuccess: onSuccess, onFailure: onFailure)
+}
+

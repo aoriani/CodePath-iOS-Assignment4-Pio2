@@ -31,6 +31,7 @@ class HomescreenViewController: UIViewController {
 
     private var timelineViewController: UINavigationController!
     private var mentionsViewController: UINavigationController!
+    private var profileViewController: UINavigationController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,7 @@ class HomescreenViewController: UIViewController {
         timelineViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController") as! UINavigationController
         let timelineController = timelineViewController.topViewController as! TweetsViewController
         timelineController.dataSourceFactoryClosure = {(tableView: UITableView) -> TweetDataSource in
-            return TweetDataSource(forTable: tableView, initialLoadEndpoint: TwitterService.loadTimeline, loadMoreEnpoint: TwitterService.continueLoadTimeline)
+            return TweetDataSource(forTable: tableView, initialLoadEndpoint: loadTimeline, loadMoreEnpoint: continueLoadTimeline)
         }
 
         
@@ -49,27 +50,28 @@ class HomescreenViewController: UIViewController {
         let mentionsControler = mentionsViewController.topViewController as! TweetsViewController
         mentionsControler.originalTitle = "Mentions"
         mentionsControler.dataSourceFactoryClosure = {(tableView: UITableView) -> TweetDataSource in
-            return TweetDataSource(forTable: tableView, initialLoadEndpoint: TwitterService.loadMentions, loadMoreEnpoint: TwitterService.continueLoadMentions)
+            return TweetDataSource(forTable: tableView, initialLoadEndpoint: loadMentions, loadMoreEnpoint: continueLoadMentions)
+        }
+        
+        let currentUser = UserManager.singleton.currentUser!
+        
+        profileViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController") as! UINavigationController
+        let profileController = profileViewController.topViewController as! TweetsViewController
+        profileController.originalTitle = "Profile"
+        
+        profileController.dataSourceFactoryClosure = {
+            (tableView: UITableView) -> TweetDataSource in
+                return ProfileTweetDataSource(forTable: tableView, withUser: currentUser, initialLoadEndpoint: TwitterService.sharedInstance.createloadUserTweetsEndpoint(currentUser.id), loadMoreEnpoint: TwitterService.sharedInstance.createContinueLoadUserTweetsEndpoint(currentUser.id))
         }
         
 
         activeViewController = timelineViewController
         
-        let currentUser = UserManager.singleton.currentUser!
         userAvatarImageView.fadedSetImageWithUrl(NSURL(string: currentUser.biggerProfileImageUrl)!)
         userNameLabel.text = currentUser.name
         userScreenNameLabel.text = "@\(currentUser.screenName)"
         
     }
-    
-    func addShadow(toView view:UIView) {
-        view.layer.shadowOffset = CGSizeMake(1, 1)
-        view.layer.shadowColor = UIColor.blackColor().CGColor
-        view.layer.shadowRadius = 8.0
-        view.layer.shadowOpacity = 0.80
-        view.layer.shadowPath = UIBezierPath(rect: view.layer.bounds).CGPath
-    }
-    
     
     private func removeInactiveViewController(inactiveViewController: UINavigationController?) {
         if let inActiveVC = inactiveViewController {
@@ -157,4 +159,8 @@ class HomescreenViewController: UIViewController {
         toggleDrawer(willOpen: false)
     }
     
+    @IBAction func onProfilePressed(sender: AnyObject) {
+        activeViewController = profileViewController
+        toggleDrawer(willOpen: false)
+    }
 }
