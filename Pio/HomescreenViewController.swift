@@ -39,14 +39,20 @@ class HomescreenViewController: UIViewController {
         addShadow(toView: contentView)
         
         timelineViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController") as! UINavigationController
+        let timelineController = timelineViewController.topViewController as! TweetsViewController
+        timelineController.dataSourceFactoryClosure = {(tableView: UITableView) -> TweetDataSource in
+            return TweetDataSource(forTable: tableView, initialLoadEndpoint: TwitterService.loadTimeline, loadMoreEnpoint: TwitterService.continueLoadTimeline)
+        }
+
         
         mentionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tweetsNavViewController") as! UINavigationController
         let mentionsControler = mentionsViewController.topViewController as! TweetsViewController
         mentionsControler.originalTitle = "Mentions"
-        mentionsControler.initialLoadEndpoint = TwitterService.loadMentions
-        mentionsControler.loadMoreEnpoint = TwitterService.continueLoadMentions
-
+        mentionsControler.dataSourceFactoryClosure = {(tableView: UITableView) -> TweetDataSource in
+            return TweetDataSource(forTable: tableView, initialLoadEndpoint: TwitterService.loadMentions, loadMoreEnpoint: TwitterService.continueLoadMentions)
+        }
         
+
         activeViewController = timelineViewController
         
         let currentUser = UserManager.singleton.currentUser!

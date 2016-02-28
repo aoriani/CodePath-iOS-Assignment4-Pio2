@@ -13,6 +13,7 @@ struct User: Decodable {
     var name: String
     var screenName: String
     var profileImageUrl: String
+    var profileBanner: String
     var creationDate: String
     var description: String?
     var favoritesCount: Int
@@ -23,9 +24,16 @@ struct User: Decodable {
     var tweetsCount: Int
     var rawData: NSDictionary?
     
+    
     var biggerProfileImageUrl: String {
         get{
             return profileImageUrl.replace("normal", by: "bigger")
+        }
+    }
+    
+    var profileBannerUrl: String {
+        get{
+            return "\(profileBanner)/mobile"
         }
     }
     
@@ -34,6 +42,7 @@ struct User: Decodable {
             name: json ==> "name",
             screenName: json ==> "screen_name",
             profileImageUrl: json ==> "profile_image_url",
+            profileBanner: json ==> "profile_banner_url",
             creationDate: json ==> "created_at",
             description: json ==> "description",
             favoritesCount: json ==> "favourites_count",

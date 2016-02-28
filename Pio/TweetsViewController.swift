@@ -17,8 +17,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
     @IBOutlet weak var drawerButton: UIBarButtonItem!
     
     var originalTitle = "Tweets"
-    var initialLoadEndpoint: InitialLoadEnpoint = TwitterService.loadTimeline
-    var loadMoreEnpoint: LoadMoreEnpoint = TwitterService.continueLoadTimeline
+    var dataSourceFactoryClosure: ((UITableView) -> TweetDataSource)!
 
     
     override func viewDidLoad() {
@@ -29,10 +28,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, OnNewTweetPos
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         
-        dataSource = TweetDataSource(forTable: tableView,
-            initialLoadEndpoint: initialLoadEndpoint,
-            loadMoreEnpoint: loadMoreEnpoint)
-        
+        dataSource = dataSourceFactoryClosure(tableView)
         let progressDialog = showProgressDialog(attachedTo: topView, message: "Loading Tweets")
         dataSource.reloadData {
             progressDialog.hide(true)
